@@ -9,6 +9,9 @@ exports.register = (req, res) => {
                 email: req.body.email,
                 password: hash
             })
+            if (req.body.email === 'admin@admin.admin') {
+                user.role = 'admin'
+            }
             user.save()
                 .then(() => res.status(201).json({ message: 'User created successfuly !' }))
                 .catch(error => res.status(400).json({ message: error }))
@@ -42,10 +45,9 @@ exports.login = (req, res) => {
 }
 
 exports.getUser = (req, res) => {
-    const token = req.params.id
-    const decodedToken = jwt.verify(token, 'GROUPOMANIA_SECRET_TOKEN')
-    const userId = decodedToken.userId
-        User.findOne({ _id: userId })
-            .then(user => res.status(200).json(user.email))
-            .catch(err => res.status(400).json({ message: err }))
+    // console.log(req.auth.userId)
+    const userId = req.auth.userId
+    User.findOne({ _id: userId })
+        .then(user => res.status(200).json({email :user.email, role: user.role}))
+        .catch(err => res.status(400).json({ message: err }))
 }

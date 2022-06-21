@@ -1,7 +1,7 @@
 <template>
     <div>
         <form @submit.prevent="handlePost" class="user-form-box">
-            <CustomTextarea v-model="userMsg" placeholder="Quoi de neuf ?" />
+            <CustomTextarea ref="textarea" v-model="userMsg" placeholder="Quoi de neuf ?" />
             <div class="input-wrapper">
                 <label class="label-img fas fa-paperclip" for="picture"></label>
                 <input @change="onFileChange" class="input-img" type="file" id="picture" name="image"
@@ -11,9 +11,7 @@
         </form>
 
         <output>
-            <p> {{ userShowMsg }} </p>
             <img :src="previewUrl" v-if="previewUrl">
-            <!-- <p v-else>No image...</p> -->
         </output>
     </div>
 </template>
@@ -21,20 +19,24 @@
 <script>
 import CustomTextarea from './CustomTextarea.vue';
 import axios from 'axios';
+
 export default {
     data() {
         return {
             userMsg: '',
             previewUrl: null,
-            file: null
+            file: null,
         };
     },
     components: {
         CustomTextarea,
     },
     computed: {
-        userShowMsg() {
-            return this.userMsg.replace(/\n/g, "<br/>");
+        token() {
+            return this.$store.getters.token
+        },
+        user() {
+            return this.$store.getters.user
         }
     },
     methods: {
@@ -54,18 +56,59 @@ export default {
             }
             reader.readAsDataURL(file)
         },
-        handlePost() {
-            console.log(this.userMsg)
-            console.log(this.file)
-            let formData = new FormData()
-            formData.append('message', this.userMsg)
-            formData.append('image', this.file)
-            axios.post('posts', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        async newPost(post) {
+            await axios.post('posts', post, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            })  
+                .then(() => { this.$router.back()})
                 .then(() => { console.log('SUCCESS!!'); })
                 .catch(() => { console.log('FAILURE!!'); })
+        },
+        async modifyPost(post) {
+            await axios.put('posts/' + this.$route.params.id , post, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            })
+                .then(() => { this.$router.back()})
+                .then(() => { console.log('SUCCESS!!'); })
+                .catch(() => { console.log('FAILURE!!'); })
+        },
+        handlePost() {
+            let formData = new FormData()
+            formData.append('author', this.user)
+            formData.append('message', this.$refs.textarea.value)
+            formData.append('image', this.file)
+            formData.append('createdAt', new Date())
+            if (this.$route.path === '/dashboard') {
+                this.newPost(formData)
+            } else {
+                this.modifyPost(formData)
+            }
+        },
+        async getPostInfo() {
+            let id = this.$route.params.id
+            const response = await axios.get('posts/' + id, {
+                headers: {
+                    'Authorization': 'Bearer ' + this.token
+                }
+            })
+            this.$refs.textarea.value = response.data.message
+            this.previewUrl = response.data.imageUrl
+            this.$nextTick(() => {
+                this.$refs.textarea.$el.focus()
+            })
+        },
+    },
+    beforeMount() {
+        if (this.$route.params.id) {
+            this.getPostInfo()
         }
     },
-    
 }
 </script>
 

@@ -43,6 +43,7 @@
 import useVuelidate from '@vuelidate/core'
 import { required, email, minLength, sameAs } from '@vuelidate/validators'
 import axios from 'axios'
+import { mapActions } from 'vuex'
 export default {
     data() {
         return {
@@ -59,12 +60,16 @@ export default {
         return {
             userEmail: { required, email },
             userPassword: {
-                password: { required, minLength: minLength(8) },
+                password: { required, minLength: minLength(4) },
                 confirm: { required, sameAs: sameAs(this.userPassword.password) }
             },
         }
     },
     methods: {
+        ...mapActions({
+            login: 'login'
+        }),
+
         deleteFields() {
             this.userEmail = ''
             this.userPassword.password = ''
@@ -78,30 +83,21 @@ export default {
             this.mode = 'login'
             this.deleteFields()
         },
-        async userRegistration() {
-            const response = await axios.post('auth/register', {
-                email: this.userEmail,
-                password: this.userPassword.password
-            })
-        },
-        async userConnection() {
-            const response = await axios.post('auth/login', {
-                email: this.userEmail,
-                password: this.userPassword.password
-            })
-            // console.log(response.data)
-            // sessionStorage.setItem('userId', response.data.userId)
-            sessionStorage.setItem('token', response.data.token)
-            this.$router.push({ name: 'welcome' })
+        async register(credentials) {
+            await axios.post('auth/register', credentials)
+                .then(alert('Compte Crée'))
         },
         submitForm() {
             this.v$.$validate()
+            const credentials = { email: this.userEmail, password: this.userPassword.password }
             if (this.mode === 'register') {
                 if (!this.v$.$error) {
-                    this.userRegistration()
+                    this.register(credentials)
                 }
             } else if (!this.v$.userEmail.$error && !this.v$.userPassword.password.$error) {
-                this.userConnection()
+                this.login(credentials)
+                    .then(() => this.$router.push({ name: 'welcome' }))
+                    .catch(() => alert('Log Failed'))
             }
         },
     }

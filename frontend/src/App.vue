@@ -1,19 +1,19 @@
 <template>
 	<TheHeader />
 	<main class="container">
-		<router-view></router-view>
+		<router-view :key="$route.path"></router-view>
 	</main>
 	<TheFooter />
 </template>
 
 <script>
-import TheHeader from './components/TheHeader.vue';
+import TheHeader from './components/TheHeader.vue'
 import TheFooter from './components/TheFooter.vue'
 export default {
 	components: {
 		TheHeader,
 		TheFooter
-	}
+	},
 }
 </script>
 

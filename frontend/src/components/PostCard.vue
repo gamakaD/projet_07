@@ -6,23 +6,34 @@
                     <img src="@/assets/profil-pic.png" alt="">
                 </div>
                 <h3 class="user-name">
-                    Nom d'utilisateur
+                    {{ post.author }}
                 </h3>
             </div>
             <div class="user-post-wrapper">
-                <p class="post-content">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non tempore id ab. Et doloribus exercitationem nesciunt quae autem quisquam obcaecati?</p>
-                <div class="img-post-wrapper">
-                    <img class="img-post" src="@/assets/background-dashboard.png" alt="">
+                <p class="post-content"> {{ post.message }}</p>
+                <div v-if="post.imageUrl" class="img-post-wrapper">
+                    <img class="img-post" :src="post.imageUrl" alt="">
                 </div>
-                <p class="post-datetime">lorem date</p>
+                <div class="card-bottom">
+                    <p class="post-datetime">{{ post.createdAt }}</p>
+                    <controllerBtn
+                        v-if="$route.name === 'dashboard' || $route.name === 'adminpostshow' || $route.name === 'adminboard'"
+                        :postId="post._id" />
+                </div>
             </div>
         </div>
     </section>
 </template>
 
 <script>
+import controllerBtn from '@/components/ControlerCardBtn.vue'
 export default {
-
+    components: {
+        controllerBtn,
+    },
+    props: {
+        post: { type: Object, required: true }
+    }
 }
 </script>
 
@@ -54,11 +65,10 @@ section {
 }
 
 .user-name {
-    align-self:center;
+    align-self: center;
 }
 
 .user-post-wrapper {
-    /* border: 1px solid; */
     padding: .5rem;
     border-radius: .7rem;
     display: flex;
@@ -74,7 +84,20 @@ section {
     border-radius: .7rem;
 }
 
+.post-content {
+    width: 100%;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
 .img-post {
     object-fit: cover;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    padding-top: .2rem;
+    border-top: 1px solid;
 }
 </style>

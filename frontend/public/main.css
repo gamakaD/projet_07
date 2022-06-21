@@ -23,3 +23,11 @@ img {
     --secondary-clr: #FFD7D7;
     --tertiary-clr: #4E5166;
 }
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
