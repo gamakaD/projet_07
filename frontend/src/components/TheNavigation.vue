@@ -1,26 +1,26 @@
 <template>
-        <nav v-if="authenticated" class="navbar active-link">
-            <ul class="nav__ul">
-                <li>
-                    <router-link :to="{ name: 'welcome' }" class="nav__link">
-                        Welcome
-                    </router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'dashboard' }" class="nav__link">
-                        Dashboard
-                    </router-link>
-                </li>
-                <li v-if="role === 'admin'">
-                    <router-link :to="{ name: 'adminboard' }" class="nav__link">
-                        Adminboard
-                    </router-link>
-                </li>
-                <li>
-                    <logout />
-                </li>
-            </ul>
-        </nav>
+    <nav v-if="authenticated" class="navbar active-link">
+        <ul class="nav__ul">
+            <li>
+                <router-link :to="{ name: 'welcome' }" class="nav__link">
+                    Welcome
+                </router-link>
+            </li>
+            <li>
+                <router-link :to="{ name: 'dashboard' }" class="nav__link">
+                    Dashboard
+                </router-link>
+            </li>
+            <li v-if="role === 'admin'">
+                <router-link :to="{ name: 'adminboard' }" class="nav__link">
+                    Adminboard
+                </router-link>
+            </li>
+            <li>
+                <logout />
+            </li>
+        </ul>
+    </nav>
 </template>
 
 <script>
@@ -41,7 +41,6 @@ export default {
 </script>
 
 <style scoped>
-
 .navbar {
     display: flex;
     margin: 1rem auto;
@@ -70,7 +69,7 @@ export default {
 }
 
 .active-link {
-   color: aqua; 
+    color: aqua;
 }
 
 @media (max-width: 600px) {

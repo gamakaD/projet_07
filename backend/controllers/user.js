@@ -45,9 +45,8 @@ exports.login = (req, res) => {
 }
 
 exports.getUser = (req, res) => {
-    // console.log(req.auth.userId)
     const userId = req.auth.userId
     User.findOne({ _id: userId })
-        .then(user => res.status(200).json({email :user.email, role: user.role}))
+        .then(user => res.status(200).json({ email: user.email, role: user.role }))
         .catch(err => res.status(400).json({ message: err }))
 }

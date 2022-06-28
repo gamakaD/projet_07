@@ -9,9 +9,11 @@ const adminRoutes = require('./routes/admin')
 
 const app = express()
 
-mongoose.connect('mongodb://localhost/Groupomania', { useNewUrlParser: true,
-useUnifiedTopology: true })
-    .then(() => console.log('Mongodb connection successful !')) 
+mongoose.connect('mongodb://localhost/Groupomania', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+    .then(() => console.log('Mongodb connection successful !'))
     .catch(() => console.log('Mongodb failed connection !'))
 
 app.use(cors())

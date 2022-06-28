@@ -62,19 +62,19 @@ export default {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': 'Bearer ' + this.token
                 }
-            })  
-                .then(() => { this.$router.back()})
+            })
+                .then(() => { this.$router.back() })
                 .then(() => { console.log('SUCCESS!!'); })
                 .catch(() => { console.log('FAILURE!!'); })
         },
         async modifyPost(post) {
-            await axios.put('posts/' + this.$route.params.id , post, {
+            await axios.put('posts/' + this.$route.params.id, post, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': 'Bearer ' + this.token
                 }
             })
-                .then(() => { this.$router.back()})
+                .then(() => { this.$router.back() })
                 .then(() => { console.log('SUCCESS!!'); })
                 .catch(() => { console.log('FAILURE!!'); })
         },
@@ -122,7 +122,6 @@ export default {
     padding: .5rem;
     border-radius: .7rem;
     gap: 2rem;
-    /* max-width: 60rem; */
     aspect-ratio: 9/1;
 }
 
@@ -154,7 +153,6 @@ export default {
 }
 
 .input-img {
-
     display: none;
 }
 
@@ -193,7 +191,6 @@ export default {
 }
 
 @media (min-width: 600px) {
-
     .label-img {
         width: 25%;
         border-radius: 5rem;

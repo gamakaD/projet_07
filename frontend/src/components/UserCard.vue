@@ -18,7 +18,7 @@
             </button>
         </div>
     </div>
-    
+
 </template>
 
 <script>
@@ -26,11 +26,11 @@ import axios from 'axios'
 
 export default {
     props: {
-        user: { type: Object, required: true},
+        user: { type: Object, required: true },
     },
     methods: {
         async showUserPosts() {
-            this.$router.push({name: 'adminpostshow', params: { id: this.$props.user._id}})
+            this.$router.push({ name: 'adminpostshow', params: { id: this.$props.user._id } })
         },
         async banUser() {
             await axios.delete('admin/user/' + this.$props.user._id, {
@@ -38,7 +38,10 @@ export default {
                     'role': this.$store.getters.role
                 }
             })
-            .then(this.$el.style.display = 'none')
+                .then(this.getId())
+        },
+        getId() {
+            this.$emit('getId', this.user._id)
         }
     }
 }
@@ -70,7 +73,6 @@ export default {
 }
 
 .btn-wrapper {
-    /* width: 100%; */
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -85,6 +87,7 @@ export default {
     .card-container {
         justify-content: center;
     }
+
     .btn-wrapper {
         width: 100%;
     }

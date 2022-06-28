@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Modifier</h3>
+        <h3>Modifier votre message</h3>
         <PostForm />
     </div>
 </template>

@@ -9,20 +9,20 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
         ...mapGetters(['authenticated'])
-    }, 
+    },
     methods: {
         ...mapActions({
             logoutAction: 'logout'
         }),
         logout() {
             this.logoutAction()
-                .then(() => this.$router.push({ name: 'login'}))
+                .then(() => this.$router.push({ name: 'login' }))
         }
     }
 }
 </script>
 
-<style scoped> 
+<style scoped>
 .logout-btn {
     padding: .15rem;
     background-color: rgb(220, 19, 19);

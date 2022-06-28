@@ -16,9 +16,9 @@
                 </div>
                 <div class="card-bottom">
                     <p class="post-datetime">{{ post.createdAt }}</p>
-                    <controllerBtn
-                        v-if="$route.name === 'dashboard' || $route.name === 'adminpostshow' || $route.name === 'adminboard'"
-                        :postId="post._id" />
+                    <LikeDislikeBtn :post="post" />
+                    <controllerBtn class="btn-wrapper" v-if="routeAccess" :postId="post._id"
+                        v-on:getId="getId($event)" />
                 </div>
             </div>
         </div>
@@ -27,12 +27,26 @@
 
 <script>
 import controllerBtn from '@/components/ControlerCardBtn.vue'
+import LikeDislikeBtn from './LikeDislikeBtn.vue'
+
 export default {
     components: {
         controllerBtn,
+        LikeDislikeBtn
     },
     props: {
-        post: { type: Object, required: true }
+        post: { type: Object, required: true },
+    },
+    computed: {
+        routeAccess() {
+            let routes = ['dashboard', 'adminpostshow', 'adminboard']
+            return routes.includes(this.$route.name)
+        }
+    },
+    methods: {
+        getId(val) {
+            this.$emit('getId', val)
+        }
     }
 }
 </script>
@@ -97,7 +111,15 @@ section {
 .card-bottom {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem;
     padding-top: .2rem;
     border-top: 1px solid;
+}
+
+@media (max-width: 600px) {
+    .btn-wrapper {
+        margin-inline: auto;
+    }
 }
 </style>

@@ -31,9 +31,11 @@ export default {
                     'Authorization': 'Bearer ' + this.token,
                     'role': this.$store.getters.role
                 }
-            })
-            .then(this.$parent.$el.style.display = 'none')
-            
+            })  
+            .then(this.getId()) 
+        }, 
+        getId() {
+            this.$emit('getId', this.postId)
         }
     }
 }

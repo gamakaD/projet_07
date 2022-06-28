@@ -16,7 +16,7 @@ const store = createStore({
         },
         token(state) {
             return state.token
-        }, 
+        },
         role(state) {
             return state.role
         },

@@ -19,6 +19,7 @@
 import PostCard from '@/components/PostCard.vue'
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+
 export default {
     data() {
         return {
@@ -29,7 +30,7 @@ export default {
         PostCard,
     },
     computed: {
-        ...mapGetters(['user', 'role']),
+        ...mapGetters(['user']),
     },
     methods: {
         async postData() {

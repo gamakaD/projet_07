@@ -11,10 +11,10 @@
         </div>
 
         <div v-for="user in users">
-            <UserCard :user="user" v-if="user.role === 'user'" />
+            <UserCard :user="user" v-if="user.role === 'user'" v-on:getId="deleteUser($event)" />
         </div>
         <div v-for="post in posts">
-            <PostCard :post="post" />
+            <PostCard :post="post" v-on:getId="deletePost($event)" />
         </div>
     </div>
 
@@ -57,6 +57,14 @@ export default {
             const response = await axios.get('/posts')
             this.posts = response.data
             this.users = null
+        },
+        deletePost(val) {
+            let i = this.posts.map(item => item._id).indexOf(val)
+            this.posts.splice(i, 1)
+        },
+        deleteUser(val) {
+            let i = this.users.map(item => item._id).indexOf(val)
+            this.users.splice(i, 1)
         }
     }
 }

@@ -1,6 +1,5 @@
 const User = require('../models/User')
 const Post = require('../models/Post')
-const fs = require('fs')
 
 exports.getAllUsers = (req, res, next) => {
     User.find()

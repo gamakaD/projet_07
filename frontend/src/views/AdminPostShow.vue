@@ -2,7 +2,7 @@
     <div class="container">
         <GoBack />
         <div v-for="post in posts">
-            <PostCard :post="post" />
+            <PostCard :post="post" v-on:getId="deletePost($event)"/>
         </div>
     </div>
 </template>
@@ -31,6 +31,10 @@ export default {
                 }
             })
             this.posts = response.data
+        },
+        deletePost(val) {
+            let i = this.posts.map(item => item._id).indexOf(val)
+            this.posts.splice(i, 1)
         },
     },
     async created() {
