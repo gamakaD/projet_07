@@ -85,7 +85,8 @@ export default {
         },
         async register(credentials) {
             await axios.post('auth/register', credentials)
-                .then(alert('Compte Crée'))
+                .then(res => alert(res.data.message))
+                .catch(err => alert(err.response.data.message.errors.email.message))
         },
         submitForm() {
             this.v$.$validate()
