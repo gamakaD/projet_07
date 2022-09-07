@@ -95,17 +95,18 @@ section {
     width: 100%;
     aspect-ratio: 2/1;
     overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .1);
     border-radius: .7rem;
 }
 
 .post-content {
-    width: 100%;
+    max-width: 100%;
     white-space: pre-wrap;
     word-break: break-word;
 }
 
 .img-post {
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .card-bottom {

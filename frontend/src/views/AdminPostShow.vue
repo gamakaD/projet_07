@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <GoBack />
-        <div v-for="post in posts">
+        <div v-for="post in posts" :key="post._id">
             <PostCard :post="post" v-on:getId="deletePost($event)"/>
         </div>
     </div>

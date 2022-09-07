@@ -7,7 +7,7 @@
         </h2>
         <section class="post-container">
             <h3>Voici les dernières News</h3>
-            <div v-for="post in posts">
+            <div v-for="post in posts" :key="post._id">
                 <PostCard :post="post" />
             </div>
         </section>

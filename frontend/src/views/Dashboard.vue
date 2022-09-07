@@ -3,7 +3,7 @@
         <PostForm />
     </div>
     <section class="post-container">
-        <div v-for="post in posts">
+        <div v-for="post in posts" :key="post._id">
             <PostCard :post="post" v-on:getId="deletePost($event)" />
         </div>
     </section>

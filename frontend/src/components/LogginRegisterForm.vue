@@ -85,7 +85,10 @@ export default {
         },
         async register(credentials) {
             await axios.post('auth/register', credentials)
-                .then(res => alert(res.data.message))
+                .then(res => {
+                    alert(res.data.message)
+                    this.mode='login'
+                })
                 .catch(err => alert(err.response.data.message.errors.email.message))
         },
         submitForm() {
@@ -98,7 +101,7 @@ export default {
             } else if (!this.v$.userEmail.$error && !this.v$.userPassword.password.$error) {
                 this.login(credentials)
                     .then(() => this.$router.push({ name: 'welcome' }))
-                    .catch(() => alert('Log Failed'))
+                    .catch(err => alert(err.response.data.message))
             }
         },
     }

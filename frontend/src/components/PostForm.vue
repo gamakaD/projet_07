@@ -4,14 +4,24 @@
             <CustomTextarea ref="textarea" v-model="userMsg" placeholder="Quoi de neuf ?" />
             <div class="input-wrapper">
                 <label class="label-img fas fa-paperclip" for="picture"></label>
-                <input @change="onFileChange" class="input-img" type="file" id="picture" name="image"
-                    accept="image/*" />
-                <button class="submit-btn" type="submit">Envoyer</button>
+                <input @change="onFileChange" 
+                        class="input-img" 
+                        type="file" 
+                        id="picture" 
+                        name="image"
+                        accept="image/*" 
+                />
+                <button type="submit" 
+                        class="submit-btn"
+                        :class="{active: isUserMsgEmpty}" 
+                        :disabled="!isUserMsgEmpty">
+                            Envoyer
+                </button>
             </div>
         </form>
 
-        <output>
-            <img :src="previewUrl" v-if="previewUrl">
+        <output :class="{'output-preview': previewUrl}">
+            <img class="preview-img" :src="previewUrl" v-if="previewUrl">
         </output>
     </div>
 </template>
@@ -37,6 +47,9 @@ export default {
         },
         user() {
             return this.$store.getters.user
+        },
+        isUserMsgEmpty() {
+            return this.userMsg
         }
     },
     methods: {
@@ -81,13 +94,13 @@ export default {
         handlePost() {
             let formData = new FormData()
             formData.append('author', this.user)
-            formData.append('message', this.$refs.textarea.value)
+            formData.append('message', this.$refs.textarea.value.trim())
             formData.append('image', this.file)
             formData.append('createdAt', new Date())
             if (this.$route.path === '/dashboard') {
                 this.newPost(formData)
             } else {
-                this.modifyPost(formData)
+                this.modifyPost(formData)  
             }
         },
         async getPostInfo() {
@@ -98,6 +111,7 @@ export default {
                 }
             })
             this.$refs.textarea.value = response.data.message
+            this.userMsg = response.data.message
             this.previewUrl = response.data.imageUrl
             this.$nextTick(() => {
                 this.$refs.textarea.$el.focus()
@@ -123,28 +137,6 @@ export default {
     border-radius: .7rem;
     gap: 2rem;
     aspect-ratio: 9/1;
-}
-
-.user-text-input {
-    width: 100%;
-    height: 3rem;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    padding: .3rem;
-    font-size: 1.2em;
-    overflow-wrap: break-word;
-    resize: vertical;
-}
-
-.user-show-msg {
-    width: 100%;
-    border: 1px solid var(--tertiary-clr);
-    overflow-wrap: break-word;
-    background-color: #fff;
-    padding: .2rem;
-    border-radius: .4rem;
-    font-size: 1.2em;
 }
 
 .input-wrapper {
@@ -181,13 +173,27 @@ export default {
     color: var(--tertiary-clr);
 }
 
-.submit-btn:hover {
+.active:hover {
     background: var(--primary-clr);
     box-shadow: 0 0 5px var(--primary-clr),
         0 0 15px var(--primary-clr),
         0 0 25px var(--primary-clr),
         0 0 50px var(--primary-clr);
     color: black;
+}
+
+.output-preview {
+    display: flex;
+    justify-content: center;
+    margin-bottom: .55rem;
+    border: 2px solid black;
+    background-color: rgb(255, 255, 255);
+    border-radius: .7rem;
+    overflow: hidden;
+}
+
+.preview-img {
+    max-width: fit-content;
 }
 
 @media (min-width: 600px) {

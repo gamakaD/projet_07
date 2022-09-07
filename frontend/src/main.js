@@ -14,3 +14,7 @@ store.dispatch('attempt', sessionStorage.getItem('token'))
             .use(store)
             .mount('#app')
     })
+
+
+
+    
