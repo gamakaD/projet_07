@@ -58,7 +58,10 @@ export default {
     },
     validations() {
         return {
-            userEmail: { required, email },
+            userEmail: { required, email, mail_validation : {
+                $validator: this.valideMail,
+                $message: 'invalid email'
+            } },
             userPassword: {
                 password: { required, minLength: minLength(4) },
                 confirm: { required, sameAs: sameAs(this.userPassword.password) }
@@ -83,6 +86,14 @@ export default {
             this.mode = 'login'
             this.deleteFields()
         },
+        valideMail(mail) {
+            let regPattern = new RegExp('[A-z0-9._-]+@groupomania[.]{1}[a-zA-Z]{2,10}[^0-9]*$')
+            if (regPattern.test(mail)) {
+                return true
+            }
+            return false
+        }
+        ,
         async register(credentials) {
             await axios.post('auth/register', credentials)
                 .then(res => {

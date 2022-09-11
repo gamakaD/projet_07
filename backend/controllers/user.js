@@ -9,7 +9,7 @@ exports.register = (req, res) => {
                 email: req.body.email,
                 password: hash
             })
-            if (req.body.email === 'admin@admin.admin') {
+            if (req.body.email === 'admin@groupomania.com') {
                 user.role = 'admin'
             }
             user.save()

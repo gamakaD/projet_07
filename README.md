@@ -15,4 +15,7 @@
    - L'écoute se fait sur le localhost au port 4000 http://localhost:4000
    
  Création compte Admin
-   - Créer un compte avec le mail admin@admin.admin
+   - Créer un compte avec le mail admin@groupomania.com
+
+ Création compte User
+   - Pour créer un compte utilisez l'extension @groupomania.com 
